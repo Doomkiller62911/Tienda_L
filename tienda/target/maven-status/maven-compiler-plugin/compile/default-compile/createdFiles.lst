@@ -4,3 +4,5 @@ com\tienda\controller\CategoriaController.class
 com\tienda\service\CategoriaService.class
 com\tienda\ProjectConfig.class
 com\tienda\repository\CategoriaRepository.class
+com\tienda\service\FirebaseStorageService.class
+com\tienda\StorageConfig.class
