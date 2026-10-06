@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 com\tienda\TiendaApplication.class
 com\tienda\domain\Categoria.class
 com\tienda\controller\CategoriaController.class
@@ -6,3 +8,4 @@ com\tienda\ProjectConfig.class
 com\tienda\repository\CategoriaRepository.class
 com\tienda\service\FirebaseStorageService.class
 com\tienda\StorageConfig.class
+>>>>>>> parent of 204b3b6 (chore: automatic commit 2026-10-05 19:30:07)
