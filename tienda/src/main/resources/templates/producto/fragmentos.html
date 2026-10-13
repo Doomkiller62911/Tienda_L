@@ -101,17 +101,19 @@
                                     <tbody>
                                         <tr th:each="p : ${productos}">
                                             <td>[[${p.idproducto}]]</td>
-                                            <td>[[${p.descripcion}]]</td>
+                                            <td>[[${p.categoria.descripcion}]]</td>
                                             <td class="text-end">[[${#numbers.formatCurrency(p.precio)}]]</td>
                                             <td class="text-center">[[${p.existencias}]]</td>
                                             <td class="text-end">[[${#numbers.formatCurrency(p.precio*p.existencias)}]]</td>
                                             <td><img th:src="@{${p.rutaImagen}}" alt="noData" height="75"/></td>
+                                            <td th:text="${p.categoria != null ? p.categoria.descripcion : ''}"></td>
                                             <td>[[${p.producto.descripcion}]]</td>
                                             <td th:text="${p.activo} ? 'Activa':'Inactiva'"></td>
                                             <td sec:authorize="hasRole('ROLE_ADMIN')">
                                                 <button type="button" class="btn btn-danger"
                                                         data-bs-toggle="modal" data-bs-target="#confirmModal"
                                                         th:data-bs-id="${p.idproducto}"
+                                                        th:data-categoria-id="${p.categoria != null ? p.categoria.idCategoria : ''}"
                                                         th:data-bs-descripcion="${p.descripcion}">
                                                     <i class="fa-solid fa-trash"></i> [[#{accion.eliminar}]]
                                                 </button>                                           
