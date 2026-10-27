@@ -9,5 +9,6 @@ com\tienda\TiendaApplication.class
 com\tienda\service\CategoriaService.class
 com\tienda\domain\Producto.class
 com\tienda\controller\ProductoController.class
+com\tienda\controller\ConsultaController.class
 com\tienda\repository\CategoriaRepository.class
 com\tienda\service\ProductoService.class
