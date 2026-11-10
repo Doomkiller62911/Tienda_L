@@ -78,8 +78,12 @@ public class ProjectConfig implements WebMvcConfigurer {
     }
 
     public static final String[] PUBLIC_URLS = {
-        "/", "/index", "/fav/**", "/carrito/**", "/consultas/**", "/registro/**",
+        "/", "/index", "/fav/**", "/carrito/**", "/registro/**",
         "/js/**", "/webjars/**", "/login", "/acceso_denegado"
+    };
+
+    public static final String[] CONSULTAS_URLS = {
+        "/consultas/**"
     };
 
     public static final String[] ADMIN_URLS = {
@@ -100,6 +104,7 @@ public class ProjectConfig implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request -> request
                 .requestMatchers(PUBLIC_URLS).permitAll()
+                .requestMatchers(CONSULTAS_URLS).hasAnyRole("ADMIN", "VENDEDOR", "USUARIO")
                 .requestMatchers(ADMIN_URLS).hasRole("ADMIN")
                 .requestMatchers(ADMIN_OR_VENDEDOR_URLS).hasAnyRole("ADMIN", "VENDEDOR")
                 .requestMatchers(USUARIO_URLS).hasRole("USUARIO")
