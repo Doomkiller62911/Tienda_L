@@ -48,7 +48,7 @@
                                 <span th:if="${p.existencias > 0}" class="badge text-bg-success ms-2" th:text="${p.existencias} + ' unidades'"></span>
                                 <span th:unless="${p.existencias > 0}" class="badge text-bg-danger ms-2">Agotado</span>
                             </div>
-                            <form th:action="@{/carrito/agregar}" th:method="POST" class="d-inline">
+                            <form action="/carrito/agregar" method="POST" class="d-inline">
                                 <input type="hidden" th:value="${p.idProducto}" name="idProducto"/>
                                 <button type="submit" 
                                         class="btn btn-sm btn-primary" 
