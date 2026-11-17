@@ -1,5 +1,7 @@
 com\tienda\SecurityConfig.class
+com\tienda\service\UsuarioService.class
 com\tienda\service\RutaService.class
+com\tienda\controller\UsuarioController.class
 com\tienda\repository\ProductoRepository.class
 com\tienda\domain\Categoria.class
 com\tienda\controller\CategoriaController.class
@@ -13,10 +15,14 @@ com\tienda\service\UsuarioDetailsService.class
 com\tienda\domain\Ruta.class
 com\tienda\repository\RutaRepository.class
 com\tienda\TiendaApplication.class
+com\tienda\service\RegistroService.class
 com\tienda\service\CategoriaService.class
 com\tienda\domain\Producto.class
+com\tienda\repository\RolRepository.class
+com\tienda\service\CorreoService.class
 com\tienda\controller\ProductoController.class
 com\tienda\controller\ConsultaController.class
 com\tienda\repository\CategoriaRepository.class
+com\tienda\controller\RegistroController.class
 com\tienda\service\ProductoService.class
 com\tienda\domain\Usuario.class

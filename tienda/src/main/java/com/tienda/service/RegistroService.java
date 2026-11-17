@@ -7,12 +7,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class RegistroService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegistroService.class);
 
     private final CorreoService correoService;
     private final UsuarioService usuarioService;
@@ -51,7 +55,10 @@ public class RegistroService {
             usuarioService.save(usuario, null,false);
             enviaCorreoActivar(usuario, clave);
             mensaje = String.format(messageSource.getMessage("registro.mensaje.activacion.ok", null, Locale.getDefault()), usuario.getCorreo());
-        } catch (MessagingException | NoSuchMessageException e) {
+        } catch (MessagingException e) {
+            LOGGER.error("No se pudo enviar el correo de activación a {}", usuario.getCorreo(), e);
+            mensaje = messageSource.getMessage("registro.registrado.nocorreo", null, Locale.getDefault());
+        } catch (NoSuchMessageException e) {
             mensaje = String.format(messageSource.getMessage("registro.mensaje.usuario.o.correo", null, Locale.getDefault()), usuario.getUsername(), usuario.getCorreo());
         }
         model.addAttribute("titulo", messageSource.getMessage("registro.activar", null, Locale.getDefault()));
