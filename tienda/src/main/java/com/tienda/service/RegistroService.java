@@ -1,5 +1,6 @@
 package com.tienda.service;
 
+import com.tienda.domain.Constante;
 import com.tienda.domain.Usuario;
 import jakarta.mail.MessagingException;
 import java.util.Locale;
@@ -7,8 +8,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,18 +15,26 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class RegistroService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegistroService.class);
-
     private final CorreoService correoService;
     private final UsuarioService usuarioService;
     private final MessageSource messageSource;
+    private final ConstanteService constanteService;
+    private final String servidor;
 
-    public RegistroService(CorreoService correoService, UsuarioService usuarioService, MessageSource messageSource) {
+    public RegistroService(CorreoService correoService, UsuarioService usuarioService, MessageSource messageSource, ConstanteService constanteService) {
         this.correoService = correoService;
         this.usuarioService = usuarioService;
         this.messageSource = messageSource;
+        this.constanteService = constanteService;
+        Optional<Constante> constante =constanteService.findByAtributo("servidor.http");
+        servidor = constante.isPresent()?constante.get().getValor():"localhost";
     }
 
+    
+    //Ojo cómo le lee una informacion del application.properties
+   // @Value("${servidor.http}")
+    //private String servidor;
+    
     //Este método se usa en el enlace del correo enviado...
     public Model activar(Model model, String username, String clave) {
         Optional<Usuario> usuario = usuarioService.getUsuarioPorUsernameYPassword(username, clave);
@@ -55,10 +62,7 @@ public class RegistroService {
             usuarioService.save(usuario, null,false);
             enviaCorreoActivar(usuario, clave);
             mensaje = String.format(messageSource.getMessage("registro.mensaje.activacion.ok", null, Locale.getDefault()), usuario.getCorreo());
-        } catch (MessagingException e) {
-            LOGGER.error("No se pudo enviar el correo de activación a {}", usuario.getCorreo(), e);
-            mensaje = messageSource.getMessage("registro.registrado.nocorreo", null, Locale.getDefault());
-        } catch (NoSuchMessageException e) {
+        } catch (MessagingException | NoSuchMessageException e) {
             mensaje = String.format(messageSource.getMessage("registro.mensaje.usuario.o.correo", null, Locale.getDefault()), usuario.getUsername(), usuario.getCorreo());
         }
         model.addAttribute("titulo", messageSource.getMessage("registro.activar", null, Locale.getDefault()));
@@ -94,10 +98,6 @@ public class RegistroService {
         }
         return clave;
     }
-
-    //Ojo cómo le lee una informacion del application.properties
-    @Value("${servidor.http}")
-    private String servidor;
 
     private void enviaCorreoActivar(Usuario usuario, String clave) throws MessagingException {
         String mensaje = messageSource.getMessage("registro.correo.activar", null, Locale.getDefault());
